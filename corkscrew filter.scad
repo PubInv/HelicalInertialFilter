@@ -116,6 +116,11 @@ module CorkscrewSlitKnife(twist,depth,num_bins) {
     echo("num_bins",num_bins);
     echo("depth",depth);
     echo("FN_RES",FN_RES);
+    echo("pitch_mm",pitch_mm);
+    // This should be the position of the helix at the "end"
+    // where we need to start the slit.
+    angle_of_knife_at_end = depth * 360 / pitch_mm;
+    echo("angle_of_knife_at_end",angle_of_knife_at_end);
     rotate([90,0,0])
     for(i = [0:num_bins -1]) {
         translate([0,0,-de])
@@ -123,8 +128,8 @@ module CorkscrewSlitKnife(twist,depth,num_bins) {
         translate([0,0,(i+1)*de])
         difference() {
             linear_extrude(height = depth, center = true, convexity = 10, twist = twist, $fn = 200)
+            rotate([0,0,angle_of_knife_at_end])
             translate([screw_OD_mm,0,0])
-            rotate([0,0,0])
             polygon(points = [[0,0],[D,-W],[D,W]]);   
             color("blue",0.3)
             translate([0,0,slit_axial_length_mm])
@@ -176,10 +181,10 @@ module CorkscrewWithSlit(depth,numbins) {
       difference() {
        CorkscrewWithVoid(depth,filter_twist_degrees);
         echo("spud");
-        CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
+        #CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
     }
-    translate([30,0,0])
-    #CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
+//   translate([30,0,0])
+//    #CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
 }
 
 

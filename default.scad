@@ -51,7 +51,7 @@ tolerance_channel = 0.1;
 
 // Params (mm), degrees 
 number_of_complete_revolutions = 2*num_bins;
-filter_height_mm = num_bins*40/3;
+filter_height_mm = num_bins*insert_length_mm;
 // WARNING! Trying to reduce this to one bin seemed to make the slit go away
 
 filter_twist_degrees = 360*number_of_complete_revolutions;
@@ -76,7 +76,7 @@ slit_knife_angle = 45;
 hex_cell_diam_mm = 10;
 FN_RES = 60;
 bin_height_z_mm = 20;
-num_screws = 3;
+num_screws = 1;
 
 screw_center_separation_mm = 10;
 bin_breadth_x_mm = (num_screws -1) * screw_center_separation_mm + screw_center_separation_mm*2;

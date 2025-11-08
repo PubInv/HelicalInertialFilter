@@ -122,13 +122,13 @@ module CorkscrewSlitKnife(twist,depth,num_bins) {
         rotate([0,0,-yrot*(i+1)])
         translate([0,0,(i+1)*de])
         difference() {
-            linear_extrude(height = depth, center = true, convexity = 10, twist = twist, $fn = FN_RES)
+            linear_extrude(height = depth, center = true, convexity = 10, twist = twist, $fn = 200)
             translate([screw_OD_mm,0,0])
             rotate([0,0,0])
             polygon(points = [[0,0],[D,-W],[D,W]]);   
             color("blue",0.3)
             translate([0,0,slit_axial_length_mm])
-            cube([15,15,depth],center=true);
+            cube([150,150,depth],center=true);
         }
     }
     
@@ -178,6 +178,8 @@ module CorkscrewWithSlit(depth,numbins) {
         echo("spud");
         CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
     }
+    translate([30,0,0])
+    #CorkscrewSlitKnife(filter_twist_degrees,depth,numbins);
 }
 
 

@@ -143,7 +143,7 @@ USE_KNIFE_SIDE          = 0;
 USE_KNIFE_TOP_HALF      = 0;
 USE_SCREW_KNIFE         = 0;
 
-USE_BINCAP              = 0;
+USE_BINCAP              = 1;
 
 TEST_BARB                = 0;
 
@@ -340,10 +340,10 @@ module BarbPort() {
 
 module BinsWithScrew(nums_screws,num_bins) {
     d = (num_screws-1)*screw_center_separation_mm;
-//    difference() {
-//        Bins(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
-//        ScrewsKnife(num_screws,num_bins,filter_height_mm);
-//    }
+    difference() {
+        Bins(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
+        ScrewsKnife(num_screws,num_bins,filter_height_mm);
+    }
 
     for (i = [0:num_screws-1]) {
         x =  -d/2 + i * screw_center_separation_mm;

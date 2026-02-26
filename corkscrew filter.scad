@@ -81,8 +81,7 @@ if (USE_MODULAR_FILTER) {
 }
 }
 
-<<<<<<< HEAD
-=======
+
 // ===== Rob's definitions ======
 
 // coordinate system: Gravity points in the -Z direction. +Z is up.abs
@@ -224,7 +223,6 @@ module CorkscrewWithSlit(depth,numbins) {
 
 
 
->>>>>>> e56b8e0 (fixing bug)
 
 // ===============================================================
 // === Module Definitions ========================================

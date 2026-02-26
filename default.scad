@@ -5,7 +5,7 @@
 // to point to your new file.
 
 // --- Main Parameters ---
-num_bins = 3;
+num_bins = 1;
 number_of_complete_revolutions = 12;
 screw_OD_mm = 1.8;
 screw_ID_mm = 1;

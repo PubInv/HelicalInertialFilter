@@ -14,19 +14,20 @@
 // *) 6 turns is desired.
 
 
+
 // =================== BEGIN INCLUDED CODE ================ 
 // by varnerrants is licensed under the Creative Commons - Attribution license.
 
 // Super-Duper Parametric Hose Barb
-$fn = 90;
 
+// This is for the manometer hose
 // Hose Outer Diameter (used to calculate shlouder length)
-hose_od = 9.5;
+hose_od = 5;
 // Hose Inner Diameter
-hose_id = 8;
+hose_id = 2.5;
 
 // How far the barbs swell the diameter.
-swell = 2;
+swell = 1.5;
 
 // Wall thickness of the barb.
 wall_thickness = 1.31;
@@ -87,7 +88,7 @@ module barb(hose_od = 21.5, hose_id = 15, swell = 1, wall_thickness = 1.31, barb
 // TODO: make barbs more flush
 // TODO: 
 
-TC_VERSION_NUM = 0.4; // printing helix without bins
+TC_VERSION_NUM = 0.5; // printing helix without bins
 
 
 // use <BarbGenerator-v3.scad>;
@@ -96,22 +97,31 @@ TC_VERSION_NUM = 0.4; // printing helix without bins
 // Params (mm), degrees 
 
 num_bins = 3;
-number_of_complete_revolutions = 2*num_bins;
-filter_height_mm = num_bins*40/3;
+// number_of_complete_revolutions = 2*num_bins;
+number_of_revolutions_in_bin = 2;
+number_of_complete_revolutions = number_of_revolutions_in_bin*num_bins;
+// filter_height_mm = num_bins*40/3;
+filter_height_mm = num_bins*80/3;
 // WARNING! Trying to reduce this to one bin seemed to make the slit go away
 
 filter_twist_degrees = 360*number_of_complete_revolutions;
-screw_OD_mm = 3.5;
+// screw_OD_mm = 3.5;
+screw_OD_mm = 5.0;
 screw_ID_mm = 2.5;
 cell_wall_mm = 1;
 barb_input_diameter = 2;
 barb_output_diameter = 5;
 barb_wall_thickness = 1;
 
+// we will use this improve the chance of a good taper fit.
+taper_outer_radius_decrease = 1;
+
 // The slit_axial_open_length_mm is the "length",
 // in an axial sense of the 
 slit_axial_open_length_mm = 1;
+// Dubious about this....
 slit_axial_length_mm = cell_wall_mm + slit_axial_open_length_mm;
+// slit_axial_length_mm = slit_axial_length_mm - cell_wall_mm;
 
 // The "slit_knife" is "radial" in the since that it cuts
 // a pie-slice shaped slit into the wall of the helix.
@@ -119,12 +129,27 @@ slit_axial_length_mm = cell_wall_mm + slit_axial_open_length_mm;
 // be half the slit. I suggest this be limited to 45 degrees.
 slit_knife_angle = 45;
 hex_cell_diam_mm = 10;
-FN_RES = 60;
+FN_RES = 120;
+$fn = 120;
 bin_height_z_mm = 20;
 num_screws = 1;
 
 screw_center_separation_mm = 10;
-bin_breadth_x_mm = (num_screws -1) * screw_center_separation_mm + screw_center_separation_mm*2;
+
+// This is 1.25" in mm to fit inside a normal 
+// American vacuum cleaner hose.
+// Ideally we would be male (outer_d = 1.25") on one side
+// with a female part (inner_d = 1.25" on the other side,
+// with a slight taper!
+bin_out_radius = 31.75/2;
+bin_breadth_x_mm = max((num_screws -1) * screw_center_separation_mm + screw_center_separation_mm*2,
+    bin_out_radius*2);
+    
+bin_cutaway_angle = 50;
+    
+if (bin_breadth_x_mm > bin_out_radius*2) {
+    echo("DANGER!! MISFIT!! bin_breadth_x_mm too large!");
+}
 
 pitch_mm = filter_height_mm / number_of_complete_revolutions;
 
@@ -136,14 +161,17 @@ bin_wall_thickness_mm = 1;
 // CONTROL_VARIABLES
 USE_SCREW_ONLY          = 0;
 USE_VOIDLESS_SCREW      = 0;
-USE_FULL_BINS           = 1;
+USE_FULL_BINS           = 0;
 USE_KNIFE_THRU_SCREWS   = 0;
 USE_KNIFE_LOW           = 0;
 USE_KNIFE_SIDE          = 0;
 USE_KNIFE_TOP_HALF      = 0;
 USE_SCREW_KNIFE         = 0;
+USE_BARBS               = 0;
 
-USE_BINCAP              = 1;
+USE_FITTING             = 1;
+
+USE_BINCAP              = 0;
 
 TEST_BARB                = 0;
 
@@ -162,10 +190,10 @@ if (TEST_BARB) {
 
 
 // Standalone BinCap generation
-if (USE_BINCAP) {
-    translate([0,0,-bin_height_z_mm+8])
-    BinCap(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
-}
+//if (USE_BINCAP) {
+//    translate([0,0,-bin_height_z_mm+8])
+//    BinCap(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
+//}
 
 // coordinate system: Gravity points in the -Z direction. +Z is up.abs
 // The left-right dimentions is considered X. Air flow is in the positive Y
@@ -179,30 +207,6 @@ module Corkscrew(h,twist) {
     circle(r = screw_OD_mm);
 }
 
-//module CorkscrewSlitKnifeOld(twist,depth,num_bins) {
-//    de = depth/num_bins;
-//    yrot = 360*(1 / pitch_mm)*de;
-//
-//    rotate([90,0,0])
-//    for(i = [0:num_bins -1]) {
-//        j = -(num_bins-1)/2 + i;
-//        rotate([0,0,-yrot*(j+1)])
-//        translate([0,0,(j+1)*de])
-//        difference() {
-//        // This is the slit-knife itself, but it goes down
-//        // the whole helical length...so we must "cut" it 
-//        // away along the axial direction. (Note: we are using
-//        // a knife on a knife, which is a little hard to understand.)
-//            #linear_extrude(height = depth, center = true, convexity = 10, twist = twist, $fn = FN_RES)
-//            translate([screw_OD_mm,0,0])
-//            rotate([0,0,0])
-//            polygon(points = [[0,0],[4,-2],[4,2]]);   
-//            color("blue",0.3)
-//            translate([0,0,slit_axial_length_mm])
-//            cube([15,15,depth],center=true);
-//        }
-//    }
-//}
 
 module CorkscrewSlitKnife(twist,depth,num_bins) {
     de = depth/num_bins;
@@ -228,7 +232,7 @@ module CorkscrewSlitKnife(twist,depth,num_bins) {
             polygon(points = [[0,0],[D,-W],[D,W]]);   
             color("blue",0.3)
             translate([0,0,slit_axial_length_mm])
-            cube([15,15,depth],center=true);
+            cube([22,22,depth],center=true);
         }
     }
     
@@ -273,31 +277,70 @@ module CorkscrewWithSlit(depth,numbins) {
 // Bins module now generates 1/8" NPT female threads instead of barbs.
 module Bins(depth,numbins,height,width,height_above_port_line) {
     b = bin_wall_thickness_mm*2;
-
+    bin_radius = width/2;
     // Now I try to do this math to create multiple bins
     // These will be cubes; orifices will have to be cut
     // in them later.
     de = depth/numbins; // w = width of one bin
-    for(i = [0:numbins -1]) {
-        j = -(numbins-1)/2 + i;
-        translate([0,j*de,0])
-        translate([0,0,height_above_port_line - height/2])
-        union() {
-            difference() {
-                cube([width,de,height],center = true);
-                // I want the bottom to be opened and then "capped"
-                translate([0,0,-(b+1)])
-                cube([width-b,de-b,height-bin_wall_thickness_mm],center=true);
-                translate([width/2,0,0])
-                rotate([0,90,0])
-                cylinder(b*2,barb_input_diameter,     barb_input_diameter,center=true,$fn=30);
+    intersection() {
+        // This puts a slight taper on the system for fitting...
+        // Male end is the outlet end (direction of flow out)
+        rotate([90,0,0])
+        cylinder(de*numbins,bin_radius-taper_outer_radius_decrease,bin_radius+taper_outer_radius_decrease,center = true);
+        for(i = [0:numbins -1]) {
+            j = -(numbins-1)/2 + i;
+            translate([0,j*de,0])
+            translate([0,0,height_above_port_line - height/2])
+            union() {
+                difference() {
+                // We can change this cylinder I think...
+                    rotate([90,0,0])
+                    // we want to put a very slight taper on this cylinder..
+                    cylinder(de,bin_radius,bin_radius,center = true);
+     //               cube([width,de,height],center = true);
+                    // I want the bottom to be opened and then "capped"
+                    //translate([0,0,-(b+1)])
+                    rotate([90,0,0])
+                    cylinder(de-b,bin_radius-b,bin_radius-b,center=true);
+     //               cube([width-b,de-b,height-bin_wall_thickness_mm+2],center=true);
+                     if (USE_BARBS) {
+                        translate([width/2,0,0])
+                        rotate([0,90,0])
+                        cylinder(b*2,barb_input_diameter,     barb_input_diameter,center=true);
+                    }
+                } 
+                if (USE_BARBS) {
+                    translate([width/2 - bin_wall_thickness_mm,0,0])
+                    rotate([0,90,0])
+                    Barb(barb_input_diameter,barb_output_diameter);
+                }
             } 
-            translate([width/2 - bin_wall_thickness_mm,0,0])
-            rotate([0,90,0])
-            Barb(barb_input_diameter,barb_output_diameter);
-        } 
+        }
+    }
+    
+
+}
+module BinsCutaway(depth,numbins,height,width,height_above_port_line) {
+    bin_radius = width/2;
+    cut_point = (bin_radius)*cos(bin_cutaway_angle);
+    s = 1000;
+    difference() {
+        Bins(depth,numbins,height,width,height_above_port_line);
+        translate([0,0,-cut_point + -s/2])
+        cube([s,s,s],center = true);         
     }
 }
+module BinsCylindricalCap(depth,numbins,height,width,height_above_port_line) {
+    bin_radius = width/2;
+    cut_point = (bin_radius)*cos(bin_cutaway_angle);
+    s = 1000;
+    difference() {
+        Bins(depth,numbins,height,width,height_above_port_line);
+        translate([0,0,-cut_point + s/2])
+        cube([s,s,s],center = true);         
+    }
+}
+
 
 module BinCap(depth,numbins,height,width,height_above_port_line) {
     b = bin_wall_thickness_mm*2;
@@ -319,7 +362,17 @@ module Screws(num_screws,num_bins,depth) {
     }
 }
 module ScrewsKnife(num_screws,num_bins,depth) {
+
     d = (num_screws-1)*screw_center_separation_mm;
+    // Warning!  This is a bug; I should do the math
+    // better. If we are doing 1 revolution because of 
+    // printing thin walls, then we have to rotate here...
+    // which shows that my math is incomplete...
+    theta = (number_of_revolutions_in_bin == 1) ? 180 : 0;
+    echo(" ================= theta");
+    echo(theta);
+    echo(number_of_revolutions_in_bin);
+    rotate([0,0,theta])
     union() {
         // now we must cut the ports
         for (i = [0:num_screws-1]) {
@@ -341,29 +394,90 @@ module BarbPort() {
 module BinsWithScrew(nums_screws,num_bins) {
     d = (num_screws-1)*screw_center_separation_mm;
     difference() {
-        Bins(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
+        BinsCutaway(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
         ScrewsKnife(num_screws,num_bins,filter_height_mm);
     }
-
+    
     for (i = [0:num_screws-1]) {
         x =  -d/2 + i * screw_center_separation_mm;
         translate([x,0,0])
         CorkscrewWithSlit(filter_height_mm,num_bins);
     }
-    
-    // Outlet
-    translate([0,filter_height_mm/2,0])
-    translate([screw_OD_mm,0,0])
-    BarbPort();
-    
-    // Inlet
-    translate([0,-filter_height_mm/2,0])
-    translate([screw_OD_mm,0,0])
-    rotate([0,0,180])
-    BarbPort();
+      
+    if (USE_BARBS) {
+        // Outlet
+        translate([0,filter_height_mm/2,0])
+        translate([screw_OD_mm,0,0])
+        BarbPort();
+        
+        // Inlet
+        translate([0,-filter_height_mm/2,0])
+        translate([screw_OD_mm,0,0])
+        rotate([0,0,180])
+        BarbPort();
+    }
 }
 
+// This is a simple tapered fitting with
+// a female side and a male side, appropriately tapered.
+// It also has an "internal stop", to make the male part
+// fit into it will not be inserted so far as to cover up
+// the pressure barb.
+module PressureAndFilterFitting() {
+    stage_length = 60;
+    // this is the male OD and the female ID
+    basic_radius = 31.75 / 2;
+    attachment_wall_width = 3;
+    stop_wall_width = 1;
+    inner_most_radius = basic_radius - attachment_wall_width;
+    slop = 2;
+    taper_radius = 2;
+    
+    difference() {
+        // Now add barb for measuring pressure...
+        union() {
+            translate([basic_radius-5,0,-5])
+            rotate([0,-90,0])       
+            barb(hose_od, hose_id, swell, wall_thickness, barbs, barb_length, shell, bore, ezprint);
+            // This intersection adds a taper...
+            intersection() {
+                cylinder(h = stage_length,r1 = basic_radius - taper_radius, r2 = basic_radius+taper_radius,center = true);
+            // This is the main cylinder
+                difference() {
+                    cylinder(h = (stage_length),r = basic_radius+1,center = true);
+            // This it the inside knife, with an internal stop
+                    union() {
+                        // female part
+                        color("blue")
+                        translate([0,0,(stage_length+slop)/4])
+                        cylinder(h = (stage_length+slop)/2,
+                        r1 = inner_most_radius, 
+                        r2 = inner_most_radius+taper_radius,
+                        center = true);
+                        // male part
+                        translate([0,0,-(stage_length+slop)/4])
+                        cylinder(h = (stage_length+slop)/2,r = inner_most_radius-stop_wall_width,center = true);
+                    }
+                }
+            }
+        }
+        // now drill out the pressure sensor barb
+        translate([basic_radius+4,0,-5])
+        rotate([0,-90,0])
+        cylinder(h=barb_length*barbs+20,r=(hose_id-wall_thickness)/2,center=true);   
+    }
+
+}
+
+if (USE_BINCAP) {
+    translate([0,0,-2])
+    BinsCylindricalCap(filter_height_mm,num_bins,bin_height_z_mm,bin_breadth_x_mm, screw_center_separation_mm);
+}
+    
+    
+    
 if (USE_FULL_BINS) {
+
     difference() {
         BinsWithScrew(num_screws,num_bins);
         if (USE_KNIFE_THRU_SCREWS) {
@@ -388,6 +502,11 @@ if (USE_FULL_BINS) {
        
 }
 
+if (USE_BINCAP) {
+    translate([0,0,-2])
+        BinsCylindricalCap(filter_height_mm,num_bins,bin_height_z_mm    ,bin_breadth_x_mm, screw_center_separation_mm);
+}
+
 if (USE_SCREW_ONLY) {
     Screws(num_screws,num_bins,filter_height_mm);
 }
@@ -398,4 +517,9 @@ if (USE_VOIDLESS_SCREW) {
     CorkscrewWithoutVoid(filter_height_mm,filter_twist_degrees);
 }
 
+if (USE_FITTING) {
+    translate([0,50,0])
+    rotate([90,0,0])
+    PressureAndFilterFitting();
+}
 

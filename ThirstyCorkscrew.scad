@@ -33,7 +33,7 @@ swell = 1.5;
 wall_thickness = 1.31;
 
 // Number of barbs.
-barbs = 4;
+barbs = 3;
 // How far between each barb section?
 barb_length = 2;
 
@@ -101,24 +101,24 @@ num_bins = 3;
 number_of_revolutions_in_bin = 2;
 number_of_complete_revolutions = number_of_revolutions_in_bin*num_bins;
 // filter_height_mm = num_bins*40/3;
-filter_height_mm = num_bins*80/3;
+filter_height_mm = num_bins*120/3;
 // WARNING! Trying to reduce this to one bin seemed to make the slit go away
 
 filter_twist_degrees = 360*number_of_complete_revolutions;
 // screw_OD_mm = 3.5;
-screw_OD_mm = 5.0;
-screw_ID_mm = 2.5;
+screw_OD_mm = 5.5;
+screw_ID_mm = 3.0;
 cell_wall_mm = 1;
 barb_input_diameter = 2;
 barb_output_diameter = 5;
 barb_wall_thickness = 1;
 
 // we will use this improve the chance of a good taper fit.
-taper_outer_radius_decrease = 1;
+taper_outer_radius_decrease = 2;
 
 // The slit_axial_open_length_mm is the "length",
 // in an axial sense of the 
-slit_axial_open_length_mm = 1;
+slit_axial_open_length_mm = 2;
 // Dubious about this....
 slit_axial_length_mm = cell_wall_mm + slit_axial_open_length_mm;
 // slit_axial_length_mm = slit_axial_length_mm - cell_wall_mm;
@@ -141,7 +141,11 @@ screw_center_separation_mm = 10;
 // Ideally we would be male (outer_d = 1.25") on one side
 // with a female part (inner_d = 1.25" on the other side,
 // with a slight taper!
-bin_out_radius = 31.75/2;
+// Note: In practice this needs to be somewhat larger 
+// to not "slip into" the pipe (on my vacuum cleaner)
+// bin_out_radius = 31.75/2;
+bin_out_radius = (31.75 + 3)/2;
+// bin_out_radius = 20;
 bin_breadth_x_mm = max((num_screws -1) * screw_center_separation_mm + screw_center_separation_mm*2,
     bin_out_radius*2);
     
@@ -169,9 +173,11 @@ USE_KNIFE_TOP_HALF      = 0;
 USE_SCREW_KNIFE         = 0;
 USE_BARBS               = 0;
 
-USE_FITTING             = 1;
+USE_FITTING             = 0;
 
-USE_BINCAP              = 0;
+USE_BINCAP              = 1;
+
+USE_FITTING_KNIFE       = 0;
 
 TEST_BARB                = 0;
 
@@ -426,7 +432,7 @@ module BinsWithScrew(nums_screws,num_bins) {
 module PressureAndFilterFitting() {
     stage_length = 60;
     // this is the male OD and the female ID
-    basic_radius = 31.75 / 2;
+    basic_radius = bin_out_radius;
     attachment_wall_width = 3;
     stop_wall_width = 1;
     inner_most_radius = basic_radius - attachment_wall_width;
@@ -448,7 +454,6 @@ module PressureAndFilterFitting() {
             // This it the inside knife, with an internal stop
                     union() {
                         // female part
-                        color("blue")
                         translate([0,0,(stage_length+slop)/4])
                         cylinder(h = (stage_length+slop)/2,
                         r1 = inner_most_radius, 
@@ -482,7 +487,7 @@ if (USE_FULL_BINS) {
         BinsWithScrew(num_screws,num_bins);
         if (USE_KNIFE_THRU_SCREWS) {
             translate([0,0,-50])
-            cube([100,100,100],center = true);
+            cube([200,200,100],center = true);
         }
         if (USE_KNIFE_LOW) {
             translate([0,0,-50+-10])
@@ -517,9 +522,15 @@ if (USE_VOIDLESS_SCREW) {
     CorkscrewWithoutVoid(filter_height_mm,filter_twist_degrees);
 }
 
-if (USE_FITTING) {
-    translate([0,50,0])
-    rotate([90,0,0])
-    PressureAndFilterFitting();
+if (USE_FITTING) {   
+    difference() {
+        translate([0,50,0])
+        rotate([90,0,0])
+        PressureAndFilterFitting();
+        if (USE_FITTING_KNIFE ) {
+            translate([0,0,-100])
+            cube([200,200,200],center = true);
+        }
+    }
 }
 

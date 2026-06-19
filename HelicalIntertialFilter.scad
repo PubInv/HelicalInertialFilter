@@ -1,17 +1,18 @@
-// This file is Copyright Robert L. Read 2025.
-// Although Public Invention does everything open source, this file is an
-// exception.
-
-// This is a work in progress. There are a number of tasks:
-// *) Create any empty chamber (for collecting particulates)
-// *) Create the Corkscrew voids
-// *) Add ejectiong slits to the Coorkscrews
-// *) desideratum: make the internal shape circular from the POV of the tunnel.
-// *) desideratom: design an "ice cream cone shape" with the point pointing out.
-//    we desire to do A-B testing on this.
-// *) Have 10 cells, each of which has a gravity feed into a particulate bin.
-// *) The number of particulate bins should be 1 or up to 3.
-// *) 6 turns is desired.
+//    HelicalFilter - OpenSCAD program for parametrized Helical Filter
+//    Copyright (C) 2027  Robert L. Read
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Affero General Public License as
+//    published by the Free Software Foundation, either version 3 of the
+//    License, or (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Affero General Public License for more details.
+//
+//    You should have received a copy of the GNU Affero General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
@@ -165,7 +166,7 @@ bin_wall_thickness_mm = 1;
 // CONTROL_VARIABLES
 USE_SCREW_ONLY          = 0;
 USE_VOIDLESS_SCREW      = 0;
-USE_FULL_BINS           = 0;
+USE_FULL_BINS           = 1;
 USE_KNIFE_THRU_SCREWS   = 0;
 USE_KNIFE_LOW           = 0;
 USE_KNIFE_SIDE          = 0;
@@ -175,7 +176,7 @@ USE_BARBS               = 0;
 
 USE_FITTING             = 0;
 
-USE_BINCAP              = 1;
+USE_BINCAP              = 0;
 
 USE_FITTING_KNIFE       = 0;
 

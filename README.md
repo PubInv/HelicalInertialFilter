@@ -26,21 +26,20 @@ Particles which hit the lid generally fall back down into the funnel to be recir
 
 A sketch of this design is pictured below:
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%206.png)
-
-Figure 6. Schematic diagram of the particle zenith device
+![Schematic diagram of the particle zenith device](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%206.png)
+Schematic diagram of the particle zenith device
 
 Photos of the Particle Zenith Device are included below. The attachment in the middle is where the filter is inserted into the particle chamber. The far right image shows white (powdered sugar) gas-solid suspensions emerging at a low velocity. It is possible to quantify and engineer the dynamic behavior of the suspension at the region of minimal velocity to better align with practical uses in future research. Below is an image of the helical and paper filter stages loaded with cornmeal (which has a distinct color) and powdered sugar after experimental runs.
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%207.png)
+![Particle zenith device assembly.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%207.png)
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%208.png)
+![Particle zenith device assembly.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%208.png)
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%209.png)
+![Particle zenith device assembly and operation.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%209.png)
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%20Cornmeal.png)
+![Filter condition after experimenting with cornmeal.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%20Cornmeal.png)
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%20Clean.png)
+![Filter condition after experimenting with powdered sugar.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Image%20Clean.png)
 
 Particle zenith device assembly and operation and filter condition after experimenting with cornmeal and powdered sugar.
 
@@ -87,21 +86,22 @@ Therefore, we will need to continue research and development of the filter to id
 
 The OpenSCAD files in this repository are highly parameterized. The filter should not be considered one 3D printable module, but rather a toolkit or “design kit” for making models of any size, number of coils, slit geometries, etc. It aims to make testing new printable designs as easy as possible. Of course, this requires some understanding of the OpenSCAD programming language, and reading the code to understand the configuration. This design is captured in the figure below.
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Figure.png)
+![Highly parameterized OpenSCAD helical filter design](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Figure.png)
 Highly parameterized OpenSCAD helical filter design
 
 At present, this file produces a “cartridge” with a tapered cylinder which is convenient for testing within a standard vacuum cleaner or shop vac hoses. Below is pictured a 3-bin, 6-turn cartridge. A “cap” can be produced from the same file so that the bins are all closed.
 
 In future work, we need to modify our design to have much deeper bins. The OpenSCAD system minimizes the labor of producing such a design. Included below is a photo of the filter ready to be plugged into a shop vac .
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Figure%204.png)
+![3D printed and assembled filter ready for installation.](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%20Figure%204.png)
 
-Figure 4. 3D printed and assembled filter ready for installation.
+3D printed and assembled filter ready for installation.
+
 An early prototype looked like this:
 
-![Alt Text](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%205.jpg)
+![Early prototypes which used barbed fittings](https://github.com/PubInv/HelicalInertialFilter/blob/main/Photos%20Folder/Helical%20Filter%205.jpg)
 
-Early prototypes which used barbed fittings
+Early prototypes which used barbed fittings.
 
 We altered this approach in favor of a system that did not use barbs because otherwise it became difficult to control the particulates in the tube.
 

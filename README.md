@@ -36,8 +36,8 @@ Figure 7. Particle zenith device assembly and operation (top row), and filter co
 
 We collected the material that passed through the filter ("pass") and the material that successfully remained trapped in the helical filter. We measured the weight in grams using a lab-grade precision scale to quantify the pass rate (the percent of material that escaped through the filter). Each trial lasted for 120 seconds, and the vacuum pressure at the filter outlet (which is interlocked with the shop vacuum) was 1.75 PSI. The results are shown below.
 
-| Material Type | Material Passed (g) | Total Material collected in filter (g) | Pass (%): Filtrate / Permeate| Material Passed (g) | Caught (%): Residue / Retentate |
-| --- | --- | --- | --- | --- | --- |
+| Material Type | Material Passed (g) | Total Material collected in filter (g) | Pass (%): Filtrate / Permeate| Caught (%): Residue / Retentate |
+| --- | --- | --- | --- | --- |
 | Powdered Sugar Trial 1 | 0.115 | 0.445 | 25.8 | 74.2 |
 | Powdered Sugar Trial 2 | 0.115 | 0.296 | 38.9 | 61.1 |
 | Powdered Sugar Trial 3 | 0.17 | 0.513 | 33.1 | 66.9 |

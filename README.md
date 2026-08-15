@@ -4,7 +4,7 @@ Through this project, we aim to design a filter that removes dust from low-veloc
 
 We have produced a physical helical filter prototype using 405nm UV-cured transparent resin surface-treated with polycrylic spray. We also tested the filter by installing one end in the “Particle Zenith Device”, described below, and the other end in an industrial shop vacuum. 
 
-Currently, we are looking for additional volunteers with backgrounds in mechanical engineering and leadership to bring this project to the next level. If you are interested in joining the team, contact comms@pubinv.org or go directly to this calendar to schedule an interview.
+Currently, we are looking for additional volunteers with backgrounds in mechanical engineering and leadership to bring this project to the next level. If you are interested in joining the team, contact comms@pubinv.org or go directly to [this calendar](https://calendar.app.google/S1aWuwjtvq6XvQwG7) to schedule an interview.
 
 ## Testing the Filter with the Particle Zenith Device
 NOTE: “Re-entrainment” is a significant problem in our design, which could affect the experimental performance reported below. 

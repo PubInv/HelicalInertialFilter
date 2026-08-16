@@ -1,6 +1,6 @@
 # Helical Inertial Filter design
 
-Through this project, we aim to design a filter that removes dust from low-velocity gas-solid suspensions which are characteristic of lunar surface systems, but could be used for regular medical purposes as well. It branched from the medical ceramic oxygen generator (M-COG) project, and was also temporarily under contract with NASA. 
+Through this project, we aim to design a filter that removes dust from low-velocity gas-solid suspensions which are characteristic of lunar surface systems, but could be used for regular medical purposes as well.
 
 We have produced a physical helical filter prototype using 405nm UV-cured transparent resin surface-treated with polycrylic spray. We also tested the filter by installing one end in the “Particle Zenith Device”, described below, and the other end in an industrial shop vacuum. 
 

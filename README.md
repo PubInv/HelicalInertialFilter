@@ -6,6 +6,21 @@ We have produced a physical helical filter prototype using 405nm UV-cured transp
 
 Currently, we are looking for additional volunteers with backgrounds in mechanical engineering and leadership to bring this project to the next level. If you are interested in joining the team, contact comms@pubinv.org or go directly to [this calendar](https://calendar.app.google/S1aWuwjtvq6XvQwG7) to schedule an interview.
 
+## Basic Idea
+
+A particle in a fluid forced through a helix feels a "centrifugal" force. If it is denser than the fluid, as most particulates in air are, it will be pushed to the ouside of the helix.
+A slit or opening there may preferentially allow the particle, or particle-heavy fluid, to leave the helix.
+The helix is thus acting as a simple "sorting" device. The remain fluid flow in the helix is cleaner than at was before the particle left.
+
+Helices can be wound around each other and packed together to create compact geometries with many ports. This project is focusing, however, on optimizing a single helix
+for now.
+
+This has a great advantage of fiber-based filters. In a sense it does not clog---or at least it does not continually clog degrading its performance.
+It may be possible to produce a filter that requires very low pressure difference to clean the air this way.
+Finally, instead of the maintenance of replacing or cleaning the filter, the filter is in theory renewable by just dumping out the filtered particles.
+
+A fully developed version of this filter could be very commercially valuable system on Earth and a safer system in Space.
+
 ## Testing the Filter with the Particle Zenith Device
 NOTE: “Re-entrainment” is a significant problem in our design, which could affect the experimental performance reported below. 
 

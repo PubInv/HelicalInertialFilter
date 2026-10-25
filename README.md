@@ -88,6 +88,40 @@ However, further study is needed to determine whether modifications to filter ge
 
 After this initial test, we isolated the filter with the shop vacuum attached and packed the filter chamber with cornmeal to test a “pre-loaded” filter in clean air. We ran the vacuum to assess what portion of material was re-entrained through the slits and collected this material in a paper filter. We observed a 16.2% pass, or re-entrainment, indicating that a substantial fraction of captured material remained susceptible to subsequent transport through the filter, limiting overall collection efficiency. 
 
+## An Idea to Address Re-Entrainment
+
+<img width="3024" height="4032" alt="IMG_2686" src="https://github.com/user-attachments/assets/872b2221-d7c6-437d-abc4-f97037687c90" />
+
+
+Focusing on re-entrainment, we are led to the idea that we must trap the dust in a place where it will not be re-entrained.
+This science of this is complex, and I have not read it all. The most basic principle is that dust falls, but 
+the smaller it is the more slowly it falls. This is modeled by Stokes' Law:
+
+\[
+v_s=\frac{(\rho_p-\rho_g)gd^2}{18\mu}
+\]
+
+If d, the diameter, is very small, the velocity will be very small. An obvious idea is to place a shelve close to the 
+particle, so it doesn't have very long to fall.
+So a basic approach is: 
+1. Use a helical filter to separate the air stream into clean and dirty streams.
+2. Take the dirty stream and slow it down by taking it into a large settling chamber/stivehouse. This slowing allows us one to compute a residence time. If the residence is long enough, the particle has time to settle onto the floor of the chmaber.
+
+This suggest a geometry with many horizontal shelves that must be oriented with respect to gravity. However, the 
+volume of each of these chambers is a problem, because it must be high to create a long residence time, but we don't want
+a high-volume device. The obvious approach is to make a stream as dirty as possible, so that we only need one
+such chamber (relatively speaking). So then we will probably have a stack of thin shelves or trays in hopes
+of trapping all particles.
+So our next plan is:
+1. Change the helical filter design to use a "skimmer" approach.
+2. Use a mutlistage helical filter to produce a compact stream of dirty air.
+3. Pull the dirty air into shallow, broad chambers with long residnece time.
+
+We thus imagine a fundamental horizontal design as depicted above.
+
+
+
+
 ## The Need for Continued Project Development 
 
 These tests were completed during our initial contract with NASA, in tandem with the M-COG’s development. This work established the feasibility of helical inertial filtration for particulate capture in low-velocity gas-solid suspensions and provides direction for future investigation. While the current prototype demonstrated measurable particulate retention across a range of particle sizes, the observed pass and re-entrainment rates indicate opportunities for further optimization. 

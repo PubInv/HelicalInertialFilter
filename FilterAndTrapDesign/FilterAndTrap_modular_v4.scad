@@ -27,7 +27,7 @@ Both output STLs are complete parts, NOT the cutaway display.
 $fn = 72;
 
 /* [View and export] */
-part_mode = "assembled"; // [assembled,separated,junction only,swirl only,section,mating section,dirty air,skimmer section]
+part_mode = "section"; // [assembled,separated,junction only,swirl only,section,mating section,dirty air,skimmer section]
 show_cutaway = false;
 layout_gap = 15;
 
@@ -324,6 +324,9 @@ module male_air() {
   translate([0,0,-2*eps]) cylinder(d=connector_male_bore,h=connector_length+3*eps);
 }
 module at_dirty_base() { translate(dirty_base()) rotate([0,bend_angle,0]) children(); }
+
+
+// This is the main file, it is misprinting in some way
 module junction_native() {
   difference() {
     union() {
@@ -331,7 +334,7 @@ module junction_native() {
       at_dirty_base() male_outer();
       translate([0,0,core_connector_base_z]) male_outer();
     }
-    union() {
+   union() {
       dirty_air(); female_air(); core_air(); at_dirty_base() male_air();
     }
   }
@@ -412,7 +415,8 @@ module selected_parts() {
       translate([-50,-50,skimmer_z+0.001]) cube([100,100,0.2]);
     }
   else {
-    swirl_generator();
+  // TODO: 
+//    swirl_generator();
     dz=assembled_junction_z+
        (part_mode=="separated" ? connector_length+layout_gap : 0);
     translate([0,0,dz]) junction_native();
